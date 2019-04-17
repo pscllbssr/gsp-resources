@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header>
+      <h1>Linksammlung </h1>
+      <p>Links, die ich im Rahmen meiner Bachelorarbeit gesammelt habe.</p>
+    </header>
+    <links></links>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Links from './components/Links.vue'
+import 'normalize.css'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Links
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+html
+  color: #424242
+  font-family: 'Montserrat', sans-serif
+
+header
+    display: flex
+    min-height: 25vh
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    padding: 1em
+    background: #4c9ea1
+    color: #fff
 </style>
