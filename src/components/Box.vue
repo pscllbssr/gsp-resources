@@ -2,7 +2,7 @@
   <a :href="link" target="_blank" :title="link">
       <h2>{{ title }}</h2>
       <p class="meta"><i>{{ year }} &bull; {{ author }}</i></p>
-      <p>{{ description }}</p>
+      <p class="content">{{ description }}</p>
       <p>
           <span v-for="tag in tag_arr" class="tag">{{ tag }}</span>
       </p>
@@ -29,7 +29,8 @@ export default {
 </script>
 <style lang="sass">
 a
-    display: block
+    display: flex
+    flex-direction: column
     box-shadow: #E0E0E0 1px 1px 5px
     padding: 1em
     color: #424242
@@ -41,11 +42,10 @@ a
 
 p.meta
     font-size: 0.8rem
+    margin: 0
 
-span.tag
-    background: #f5f5f5
-    margin-right: 5px
-    padding: 0.5em
-    font-size: 0.8rem
+p.content
+    flex: 1
+    line-height: 1.5
 </style>
 

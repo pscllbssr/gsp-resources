@@ -1,14 +1,17 @@
 <template>
-  <main>
+  <main class="main">
     <div>
-      <h2>Tags: </h2>
+      <h2>Filtern nach Stichwörtern:</h2>
       <p>        
           <span v-for="tag in tags" class="tag">
-            <label><input type="checkbox" />{{ tag }}</label>
+            <label><input type="checkbox" :value="tag" v-model="filter" />{{ tag }}</label>
           </span>
       </p>
+      <p>
+        <button class="btn btn-outline" @click="filter = []" :disabled="filter.length == 0"> &#x2716; zurücksetzen</button>
+      </p>
     </div>
-    <box v-for="entry in entries" 
+    <box v-for="entry in filtered_entries" 
       :key="entry['gsx$id']['$t']"
       :title="entry['gsx$titel']['$t']"
       :link="entry['gsx$link']['$t']"
@@ -33,7 +36,8 @@ export default {
   data () {
     return {
       entries: [],
-      tags: []
+      tags: [],
+      filter: []
     }
   },
   mounted () {
@@ -52,61 +56,81 @@ export default {
   },
   computed: {
     filtered_entries: function () {
-      return this.entries
+      if( this.filter.length == 0 ){
+        return this.entries
+      }else{
+        return this.entries.filter(j => {
+            let found = false
+            this.filter.every( (filter_str) => {
+              if (j['gsx$tags']['$t'].includes(filter_str)){
+                found = true
+                return false
+              }else{
+                return true
+              }
+            });
+            return found
+          })
+      } 
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="sass" scoped>
+<style lang="sass">   
 
 // Small tablets and large smartphones (landscape view)
-$screen-sm-min: 576px
+$screen-sm-min: 650px
 @mixin sm 
    @media (min-width: #{$screen-sm-min}) 
        @content;
-   
-
 
 // Small tablets (portrait view)
-$screen-md-min: 768px
-@mixin md
+$screen-md-min: 850px
+=md
    @media (min-width: #{$screen-md-min})
        @content;
-   
-
 
 // Tablets and small desktops
-$screen-lg-min: 992px
-@mixin lg 
+$screen-lg-min: 1100px
+=lg 
    @media (min-width: #{$screen-lg-min}) 
-       @content;
+       @content
    
-
-
 // Large tablets and desktops
-$screen-xl-min: 1200px;
-@mixin xl 
+$screen-xl-min: 1350px
+=xl 
    @media (min-width: #{$screen-xl-min}) 
        @content;
-   
-
-
-main 
+       
+.main
   display: grid
   grid-gap: 2em
-  grid-template-columns: auto
+  grid-template-columns: 1fr
   padding: 3em 1em
 
-  @include sm
-    grid-template-columns: 1fr
-  
-  @include md
+  +sm
     grid-template-columns: 1fr 1fr
-
-  @include lg
-    grid-template-columns: 1fr 1fr 1fr
   
+  +md
+    grid-template-columns: 1fr 1fr 1fr
 
+  +lg
+    grid-template-columns: 1fr 1fr 1fr 1fr
+  
+span.tag
+    background: #f5f5f5
+    margin: 0 5px 5px 0
+    padding: 0.5em
+    font-size: 0.8rem
+    cursor: pointer
+    white-space: nowrap
+    display: inline-block
+
+    input
+      margin-right: 3px
+      vertical-align: middle
+    
+    label
+      cursor: pointer
 </style>
